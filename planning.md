@@ -10,6 +10,7 @@
 ## Domain
 
 <!-- What domain did you choose? Why is this knowledge valuable and hard to find through official channels? -->
+Domain: on-campus housing experiences at Boston University. This knowledge is valuable for students who want to make more informed decisions when applying for and choosing their on-campus housing for future semesters. While plenty of objective information exists in official channels, reviews and experiences are more subjective, informal and sentiment-based. Official channels also won't be informative about negative aspects of each campus housing, and tend to be overly positive. Including informal student reviews is a way to obtain balanced feedback.
 
 ---
 
@@ -18,33 +19,31 @@
 <!-- List your specific sources: URLs, subreddit names, forum threads, or file descriptions.
      Aim for at least 10 sources that together cover different subtopics or perspectives within your domain. -->
 
-| # | Source | Description | URL or location |
-|---|--------|-------------|-----------------|
-| 1 | | | |
-| 2 | | | |
-| 3 | | | |
-| 4 | | | |
-| 5 | | | |
-| 6 | | | |
-| 7 | | | |
-| 8 | | | |
-| 9 | | | |
-| 10 | | | |
+| # | Reddit post/source | Short description | Markdown file path |
+|---|--------------------|-------------------|--------------------|
+| 1 | Freshman Dorm: Warren v. The Towers | A Reddit post comparing Warren and The Towers for an incoming BU freshman, with comments on convenience, social life, West Campus, dining, and housing odds. | `documents/warren_v_towers.md` |
+| 2 | Deciding between Warren, Fenway, and The Towers | A Reddit post discussing whether freshmen should choose Warren, Fenway, or The Towers, with comments on community, distance from campus, dining, bathrooms, and social life. | `documents/warren_towers_fenway.md` |
+| 3 | BU Dorms: Warren vs. West and Other First-Year Options | A Reddit post from an incoming CAS student asking about Warren and West, with comments comparing room quality, location, common spaces, dining access, and East Campus alternatives. | `documents/bu_dorms.md` |
+| 4 | Best and Worst Residences/Dorms at BU | A Reddit post asking where freshmen usually stay and which dorms are best or worst, with comments on Warren, West, Towers, Bay State brownstones, Danielsen, and freshman social life. | `documents/bestworst_dorms.md` |
+| 5 | Choosing Housing: Warren vs. West for Questrom | A Reddit post from an incoming Questrom student deciding between Warren and West, with comments on Warren renovations, construction noise, social life, gym access, and class proximity. | `documents/choosing_housing.md` |
+| 6 | StuVi Honest Review: Pros, Cons, and Value | A Reddit post asking whether Student Village is worth the price, with comments on AC, bathrooms, room quality, noise, appliances, storage, gym proximity, and cost tradeoffs. | `documents/stuvi_honestreview.md` |
+| 7 | BU Housing Advice for Incoming Students | A Reddit post from a prospective student researching housing, with comments explaining realistic freshman options, private bathrooms, AC, brownstones, 610 Beacon, apartments, Kilachand, HoJo, Riverway, and Fenway. | `documents/housing_advice.md` |
+| 8 | Best Freshman Dorms at BU | A Reddit post from an incoming CAS student asking which freshman dorms are best, with comments on making friends, bugs, Fenway, Warren, West, Towers, Bay State, and freshman placement odds. | `documents/best_freshman_dorms.md` |
+| 9 | Housing Ranking: Modern Two-Person Suite Near CAS | A Reddit post asking about a modern two-person suite near CAS, with comments ranking realistic freshman options such as Warren, West, Fenway, HoJo, Towers, brownstones, and Kilachand. | `documents/housing_ranking.md` |
+| 10 | HoJo for Socializing as a Freshman | A Reddit post asking whether HoJo is good for socializing, with comments comparing HoJo, Warren, and West for freshman community, private bathrooms, location, dining, and meeting people. | `documents/hojo_1.md` |
 
 ---
 
 ## Chunking Strategy
 
-<!-- How will you split documents into chunks?
-     State your chunk size (in tokens or characters), overlap size, and explain why those
-     numbers fit the structure of your documents.
-     A review-heavy corpus warrants different chunking than a long FAQ. -->
-
 **Chunk size:**
+500 characters
 
 **Overlap:**
+100 characters
 
 **Reasoning:**
+These numbers should enable us to capture entire comments as well as some relevant replies, or relevant chunks of the post content itself.
 
 ---
 
@@ -57,10 +56,13 @@
      support, accuracy on domain-specific text, latency? -->
 
 **Embedding model:**
+The all-MiniLM-L6-v2 model will be used via sentence-transformers.
 
 **Top-k:**
+Top 5 related chunks will be retrieved.
 
 **Production tradeoff reflection:**
+If cost wasn't a concern, a more complex embedding model would probably be able to handle larger context lengths better, enabling more accurate responses. Since this domain is fairly specific, a more powerful embedding model might also be more accurate in retrieving relevant info and context from the chunks.
 
 ---
 

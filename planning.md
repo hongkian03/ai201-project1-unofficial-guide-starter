@@ -75,11 +75,11 @@ If cost wasn't a concern, a more complex embedding model would probably be able 
 
 | # | Question | Expected answer |
 |---|----------|-----------------|
-| 1 | | |
-| 2 | | |
-| 3 | | |
-| 4 | | |
-| 5 | | |
+| 1 | Which freshman dorm is the most convenient in BU? | Warren is usually described as the most convenient freshman dorm because it is central, close to many classes, and has a dining hall in the building. For Questrom students, The Towers may also be very convenient because it is right next to QST. |
+| 2 | Which freshman dorm has the best social life in BU? | Warren is usually described as the best freshman dorm for social life because many freshmen live there and it is easy to meet people. West is also mentioned as social, but Warren comes up most often for making friends. |
+| 3 | Which freshman dorm is the most suitable for introverts in BU? | Warren is probably best for an introvert who wants to meet people because there are many freshmen, common rooms, and a dining hall in the building. HoJo has better bathrooms but seems less social and more isolating. |
+| 4 | Is StuVi worth the extra money to live at? | StuVi can be worth it if the student cares a lot about comfort, AC, singles, better bathrooms, storage, and being close to the gym. It is expensive, so it may not be worth it if cost is a major concern. |
+| 5 | Is Fenway worth the additional distance from the main campus? | Fenway can be worth it because students mention better rooms, good dining, and private or individual bathrooms in some buildings. The downside is that it is far from main campus and can feel isolated, so it depends on whether the student values comfort more than location. |
 
 ---
 
@@ -89,9 +89,9 @@ If cost wasn't a concern, a more complex embedding model would probably be able 
      Consider: noisy or inconsistent documents, missing source attribution, off-topic
      retrieval, chunks that split key information across boundaries. -->
 
-1.
+1. The length of posts and comments may be inconsistent, so a fixed chunking might not work as effectively for all posts or sources.
 
-2.
+2. Some portions of posts or comments, or some comments in a post, could be irrelevant due to various reasons (trolls, bots, etc.) and hence chunks containing these would be quite irrelevant and useless.
 
 ---
 
@@ -102,6 +102,47 @@ If cost wasn't a concern, a more complex embedding model would probably be able 
      Label each stage with the tool or library you're using.
      You can use ASCII art, a Mermaid diagram, or embed a sketch as an image.
      You'll use this diagram as context when prompting AI tools to implement each stage. -->
+```text
+        sources                       chunking                    embedding                     
+  ┌─────────────────┐            ┌─────────────────┐          ┌─────────────────┐               
+  │                 │            │                 │          │                 │               
+  │                 │            │                 │          │all-MiniLM-L6-v2 │               
+  │ documents/**.md ├───────────►│    ingest.py    ├─────────►│    model in     │               
+  │                 │            │                 │          │    ingest.py    │               
+  │                 │            │                 │          │                 │               
+  └─────────────────┘            └─────────────────┘          └───────┬─────────┘               
+                                                              │                         
+                                                                      │                         
+                                                                      │                         
+                                                                      │                         
+                                                                      │                         
+       embedding                    user question                     │                         
+   ┌─────────────────┐          ┌──────────────────┐          ┌───────▼────────┐                
+   │                 │          │                  │          │                │                
+   │all-MiniLM-L6-v2 │          │                  │          │ vectors stored │                
+   │    model in     ◄──────────┼     query.py     │◄─────────┼                │                
+   │    query.py     │          │                  │          │ in ChromaDB    │                
+   │                 │          │                  │          │                │                
+   └───────┬─────────┘          └──────────────────┘          └────────────────┘                
+           │                                                                                    
+           │                                                                                    
+           │                                                                                    
+           │                                                                                    
+           │                                                                                    
+           ▼                                                                                    
+┌──────────────────────────┐                                                                    
+│                          │                                                                    
+│                          │            ┌──────────────────┐                                    
+│   retreive chunks in     │            │                  │                ┌──────────────────┐
+│   ChromaDB that have     │            │ LLM generation   │                │ output of final  |
+│   greatest similarity    ┼───────────►│ of answer using  ┼───────────────►│  answer with     |
+│   to the embedded        │            │ retrieved context│                │   sources        │
+│   question vector as     │            │                  │                └──────────────────┘
+│   context                │            └──────────────────┘                                    
+│                          │                                                                    
+└──────────────────────────┘                                                                    
+```
+
 
 ---
 
@@ -116,6 +157,8 @@ If cost wasn't a concern, a more complex embedding model would probably be able 
      "I'll use AI to help me code" is not a plan.
      "I'll give Claude my Chunking Strategy section and ask it to implement chunk_text()
      with my specified chunk size and overlap" is a plan. -->
+
+I intend to use Codex (powered by ChatGPT) to implement this pipeline. planning.md will be fed as context, in particular the implementation diagram. I will also manually input and clarify in my prompt the overall architecture I expect of the pipeline, such as what files will contain what methods or code blocks. I will implement each stage separately to prevent overwhelm of having to debug AI-generated code. I will probably start with the ingestion and chunking code, then to embedding, storage and retrieval, then to generation and user interfacing. At each stage I expect Codex to produce code that is organized and commented in the way I want it to be. I will verify manually by reading through the generated code, understanding what it does and verifying the overall architecture fits my vision. I will do this for each separate portion as well as for the whole pipeline to ensure everything integrates well with each other.
 
 **Milestone 3 — Ingestion and chunking:**
 

@@ -161,6 +161,9 @@ If cost wasn't a concern, a more complex embedding model would probably be able 
 I intend to use Codex (powered by ChatGPT) to implement this pipeline. planning.md will be fed as context, in particular the implementation diagram. I will also manually input and clarify in my prompt the overall architecture I expect of the pipeline, such as what files will contain what methods or code blocks. I will implement each stage separately to prevent overwhelm of having to debug AI-generated code. I will probably start with the ingestion and chunking code, then to embedding, storage and retrieval, then to generation and user interfacing. At each stage I expect Codex to produce code that is organized and commented in the way I want it to be. I will verify manually by reading through the generated code, understanding what it does and verifying the overall architecture fits my vision. I will do this for each separate portion as well as for the whole pipeline to ensure everything integrates well with each other.
 
 **Milestone 3 — Ingestion and chunking:**
+Note on the script: I had actually written one and scraped my Reddit post sources using the free tier of Manus AI. It proved to be quite an effective way to automate the process of getting all the relevant info (post content, comments, etc.) without having to manually copy the stuff I wanted. Apologies if this is not allowed under the course syllabus.
+
+The script is available in the file scrape.py. All the sources in the documents/ subdirectory are already loaded, cleaned and processed by this script, and hence need no further processing before ingestion and chunking.
 
 **Milestone 4 — Embedding and retrieval:**
 
